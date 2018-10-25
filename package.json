@@ -1,0 +1,29 @@
+{
+  "name": "battleshipt",
+  "version": "1.0.0",
+  "description": "A re-creation of the classic Battleship board game.",
+  "private": true,
+  "scripts": {
+    "test": "jest-webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://michael-shipt@github.com/michael-shipt/battleshipt.git"
+  },
+  "keywords": [
+    "game",
+    "battleship"
+  ],
+  "author": "Michael Panik",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michael-shipt/battleshipt/issues"
+  },
+  "homepage": "https://github.com/michael-shipt/battleshipt#readme",
+  "devDependencies": {
+    "jest": "^23.6.0",
+    "jest-webpack": "^0.5.1",
+    "webpack": "^4.23.0",
+    "webpack-cli": "^3.1.2"
+  }
+}
