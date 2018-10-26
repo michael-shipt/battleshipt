@@ -1,6 +1,18 @@
+import { Ship } from '../Ship'
+
 export default class Player {
     constructor(board) {
         this.board = board
+        this.ships = []
+    }
+
+    createShips(ships) {
+        ships.forEach(ship => {
+            const shipName = ship[0],
+                shipLength = ship[1]
+
+            this.ships.push(new Ship(shipName, shipLength))
+        })
     }
 
     attack(player, x, y) {
