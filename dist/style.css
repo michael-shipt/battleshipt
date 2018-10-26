@@ -1,0 +1,41 @@
+.board {
+  width: 400px;
+  height: 400px;
+  float: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  border: 3px solid;
+  margin: .5em;
+}
+
+.tile {
+  border: 1px solid;
+  width: 10%;
+  height: 10%;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+.tile:hover {
+  background: gray;
+}
+
+.tile.tile--hit {
+  background: red;
+}
+
+.tile.tile--hit:hover {
+  background: darkred;
+}
+
+.tile.tile--miss {
+  background: white;
+}
+
+.tile.tile--miss:hover {
+  background: lightgray;
+}
+/*# sourceMappingURL=style.css.map */

@@ -4,7 +4,8 @@
   "description": "A re-creation of the classic Battleship board game.",
   "private": true,
   "scripts": {
-    "test": "jest-webpack"
+    "test": "jest-webpack",
+    "dev": "webpack --mode development"
   },
   "repository": {
     "type": "git",
