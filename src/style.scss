@@ -1,36 +1,88 @@
+@mixin shadow() {
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.47);
+    z-index: 99999;
+}
+
+@mixin peg($color) {
+    &:after {
+        @include shadow();
+
+        content: '';
+        display: block;
+        position: absolute;
+        width: 30%;
+        height: 30%;
+        background: $color;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%,-50%);
+        border-radius: 100%;
+        border: 3px outset darken($color, 10%);
+    }
+}
+
+h1 {
+    text-transform: uppercase;
+    text-align: center;
+    font-family: 'Impact', sans-serif;
+    font-size: 72px;
+    color: #3c3c3c;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+body {
+    background: #848484;
+}
+
+#app {
+    text-align: center;
+}
+
 .board {
     width: 400px;
     height: 400px;
-    float: left;
-    display: flex;
+    display: inline-flex;
     flex-wrap: wrap;
-    border: 3px solid;
+    border: 3px ridge gray;
     margin: .5em;
+
+
+    &.board--active {
+        outline: 5px solid #71b045;
+    }
 }
 
 .tile {
+    background: radial-gradient(#4c4c4c 0,#292929 20%,#525252 22%,#c7c7c7 25%, #c7c7c7 100%);
     border: 1px solid;
+    border-top-color: darkgrey;
+    border-right-color: darkgrey;
+    border-bottom-color: #6f6f6f;
+    border-left-color: #6f6f6f;
+    position: relative;
     width: 10%;
     height: 10%;
     box-sizing: border-box;
 
     &:hover {
-        background: gray;
+        background: radial-gradient(#4c4c4c 0,#292929 20%,#525252 22%,gray 25%, gray 100%);
+        cursor: crosshair;
     }
 
-    &.tile--hit {
-        background: red;
-
-        &:hover {
-            background: darkred;
-        }
-    }
-
-    &.tile--miss {
-        background: white;
+    &.tile--ship {
+        @include shadow();
         
-        &:hover {
-            background: lightgray;
-        }
+        background: radial-gradient(#000000 0, #060606 20%, #212121 22%, #323438 25%, #323438 100%);
+        border: none;
+        position: relative;
+        z-index: 999;
+    }
+    
+    &.tile--hit {
+        @include peg(red)
+    }
+    
+    &.tile--miss {
+        @include peg(white)
     }
 }
