@@ -8,13 +8,11 @@ export default class Ship {
 
     hit() {
         if (!this.sunk) {
-            --this.hp
+            this.hp--
         }
 
-        if (this.hp === 0) {
+        if (this.hp == 0) {
             this.sunk = true
         }
-
-        return this.sunk
     }
 }

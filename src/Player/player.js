@@ -1,39 +1,43 @@
 import { Ship } from '../Ship'
+import { Board } from '../Board'
 
 export default class Player {
-    constructor(board) {
-        this.board = board
-        this.ships = []
-    }
-
-    createShips(ships) {
-        ships.forEach(ship => {
-            const shipName = ship[0],
-                shipLength = ship[1]
-
-            this.ships.push(new Ship(shipName, shipLength))
-        })
+    constructor(shipList) {
+        this.board = new Board(10, 10, shipList)
     }
 
     attack(player, x, y) {
         const   opponentBoard = player.board,
                 tileStatus = opponentBoard.checkTile(x, y)
-
+        
+        // refactor
         switch (tileStatus) {
 
             case 0:
                 opponentBoard.setTile(1, x, y)
-                return 'Miss!'
+                console.log('Miss!')
+                return 'miss'
 
             case 1:
-                return 'Already taken!'
+                console.log('Already taken!')
+                return 'taken'
 
             default:
-                if (!tileStatus.hit()) {
-                    opponentBoard.setTile(1, x, y)
-                    return 'Hit!'
+                tileStatus.hit()
+                opponentBoard.setTile(1, x, y)
+
+                if (!tileStatus.sunk) {
+                    console.log('Hit!')
+                    return 'hit'
                 } else {
-                    return 'Ship Sunk!'
+                    if (opponentBoard.areAllShipsSunk()) {
+                        console.log('Game over, man. Game OVER!!')
+                        return 'gameover'
+                    }
+
+                    console.log('Sunk!')
+                    return 'sunk'
+
                 }
         }
     }

@@ -1,3 +1,5 @@
+import { Ship } from '../Ship'
+
 /**
  * Board class represents a player's board: a grid of n tiles.
  * 
@@ -11,10 +13,12 @@ export default class Board {
      * @param {number} x the width of the board
      * @param {number} y the height of the board
      */
-    constructor(x, y) {
+    constructor(x, y, shipList) {
+        this.name = `board_${Math.floor(1000 + Math.random() * 9000)}`
         this.x = x
         this.y = y
         this.tiles = this.createBoard(x, y)
+        this.ships = this.createShips(shipList)
     }
 
     /**
@@ -33,6 +37,19 @@ export default class Board {
         }
 
         return board
+    }
+
+    createShips(shipList) {
+        let ships = []
+
+        shipList.forEach(ship => {
+            const shipName = ship[0],
+                shipLength = ship[1]
+
+            ships.push(new Ship(shipName, shipLength))
+        })
+
+        return ships
     }
 
     /**
@@ -60,6 +77,8 @@ export default class Board {
                 this.tiles[y + i][x] = ship
             }
         }
+
+        return // TODO: array of ship tiles?
     }
 
     /**
@@ -74,5 +93,17 @@ export default class Board {
 
     setTile(status, x, y) {
         this.tiles[y-1][x-1] = status
+    }
+
+    areAllShipsSunk() {
+        for (let i = 0; i < this.ships.length; i++) {
+            const e = this.ships[i];
+
+            if (!e.sunk) {
+                return false
+            }
+        }
+
+        return true
     }
 }
