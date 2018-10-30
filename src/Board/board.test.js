@@ -3,7 +3,7 @@ import { Ship } from "../Ship";
 
 test('Set tile to 1, check if it\'s 1.', () => {
     const board = new Board(4,4)
-    board.setTileStatus(1, 2, 2)
+    board.setTileClass(1, 2, 2)
     expect(board.checkTile(2, 2)).toBe(1)
 })
 

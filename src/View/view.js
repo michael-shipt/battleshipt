@@ -6,10 +6,18 @@ import { STATUS_CODE } from '../helpers'
  * @access public
  */
 export default class View {
+    /**
+     * Constructs a View instance
+     */
     constructor() {
         this.app = document.getElementById('app')
     }
 
+    /**
+     * Renders a Board to the DOM
+     * 
+     * @param {Board} board Board to render in the DOM
+     */
     drawBoard(board) {
         if (!this.boardExists(board.name)) {
             this.app.innerHTML += `<div class="board" id="${board.name}"></div>`
@@ -25,10 +33,22 @@ export default class View {
         document.getElementById(board.name).innerHTML = tiles
     }
 
+    /**
+     * Checks to see if a board object exists in the DOM
+     * 
+     * @param {number} boardId pseudo-UUID of the Board to look for
+     * 
+     * @returns {boolean} Does the board exist?
+     */
     boardExists(boardId) {
         return document.getElementById(boardId) !== null ? true : false
     }
 
+    /**
+     * Sets which board object is active
+     * 
+     * @param {number} boardIndex Index of the board to make active
+     */
     setActiveBoard(boardIndex) {
         const boards = document.querySelectorAll('.board')
 
@@ -39,7 +59,13 @@ export default class View {
         boards[boardIndex].classList.add('board--active')
     }
 
-    setTileStatus(status, tile) {
+    /**
+     * Adds a class to a tile DOM node
+     * 
+     * @param {number} status status code to set the tile class based on
+     * @param {DOMNode} tile DOM node of the tile to update
+     */
+    setTileClass(status, tile) {
         switch (status) {
             case STATUS_CODE.hit:
             case STATUS_CODE.sunk:

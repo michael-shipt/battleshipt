@@ -1,10 +1,20 @@
 import { Player } from '../Player'
+import { STATUS_CODE } from '../helpers'
 
+/**
+ * Represents the Game logic
+ */
 export default class Game {
+    /**
+     * 
+     * @param {View} view View instance
+     * @param {number} numberOfPlayers number of players in the game
+     * @param {array} shipList a list of arrays containing [0] ship name and [1] ship hp
+     */
     constructor(view, numberOfPlayers, shipList) {
         this.view = view
         this.shipList = shipList
-        this.players = this.createPlayers(numberOfPlayers)//.bind(this)
+        this.players = this.createPlayers(numberOfPlayers)
         
         this.currentPlayer = 0
         this.lastPlayer = numberOfPlayers - 1
@@ -13,6 +23,13 @@ export default class Game {
         this.start()
     }
 
+    /**
+     * Create n number of Player instances
+     * 
+     * @param {number} numberOfPlayers Number of players to create
+     * 
+     * @returns {array} list of Player instances
+     */
     createPlayers(numberOfPlayers) {
         let players = []
 
@@ -24,6 +41,9 @@ export default class Game {
         return players
     }
 
+    /**
+     * Start the game by drawing boards and creating ships for each player, then begin the gameloop
+     */
     start() {
         this.players.forEach(player => {
             
@@ -40,6 +60,9 @@ export default class Game {
         this.gameLoop()
     }
 
+    /**
+     * A loop of the game; one players' turn
+     */
     gameLoop() {
         this.view.setActiveBoard(this.lastPlayer)
 
@@ -49,44 +72,46 @@ export default class Game {
         const turn = attackHandler.bind(this)
 
         if(!this.over) {
-            // listen for a click
+            // Listen for an 'attack'
             document.addEventListener('attack', turn, false)
         }
 
-        // refactor
-        function attackHandler(e) {
+        function attackHandler(event) {
+            // Remove the event listener until the next loop so we avoid double firing
             document.removeEventListener('attack', turn, false)
     
-            const board = e.detail.board,
-                x = e.detail.x,
-                y = e.detail.y
+            const {board, x, y, target} = event.detail
             
-            // // ignore it if it came from current player's board
+            // Ignore it if it came from current player's board
             if (board !== this.lastPlayer) { 
                 alert('wrong board')
                 this.gameLoop()
                 return
             }
 
-            // get the coordinates of the click
-            // attack that location
+            // Get the coordinates of the click and attack that location
             const status = activePlayer.attack(lastPlayer, x, y)
 
-            this.view.setTileStatus(status, e.detail.target)
+            this.view.setTileClass(status, target)
 
-            if (status === 'gameover') {
+            if (status === STATUS_CODE.gameover) {
+                // The game is over
                 this.gameOver()
             }
 
-            if (status !== 'taken') {
-                // // advance to next player
+            if (status !== STATUS_CODE.taken) {
+                // Advance to next player
                 this.advancePlayer()
             }
 
+            // Recursion
             this.gameLoop()
         }
     }
 
+    /**
+     * Advance to the next player in the list
+     */
     advancePlayer() {
         this.lastPlayer = this.currentPlayer
         
@@ -99,6 +124,9 @@ export default class Game {
         console.log(`Player ${this.currentPlayer}'s turn!`)
     }
 
+    /**
+     * Called when the game is over.
+     */
     gameOver() {
         alert('Game over!')
     }

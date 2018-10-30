@@ -1,6 +1,14 @@
 import { Game } from "../Game";
 
+/**
+ * Represents the Controller
+ */
 export default class Controller {
+    /**
+     * Constructs a new controller
+     * 
+     * @param {View} view View instance of the game
+     */
     constructor(view) {
         this.view = view
         this.game = new Game(view, 2, [
@@ -14,6 +22,9 @@ export default class Controller {
         this.clickHandler()
     }
 
+    /**
+     * Listens for any click on a tile and fires an attack event
+     */
     clickHandler() {
         const tiles = document.querySelectorAll('div.tile')
 
