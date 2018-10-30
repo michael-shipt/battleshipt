@@ -1,3 +1,10 @@
+import { STATUS_CODE } from '../helpers'
+
+/**
+ * View class interacts with DOM
+ * 
+ * @access public
+ */
 export default class View {
     constructor() {
         this.app = document.getElementById('app')
@@ -34,17 +41,17 @@ export default class View {
 
     setTileStatus(status, tile) {
         switch (status) {
-            case 'hit':
-            case 'sunk':
-            case 'gameover':
+            case STATUS_CODE.hit:
+            case STATUS_CODE.sunk:
+            case STATUS_CODE.gameover:
                 tile.classList.add('tile--hit')
                 break;
             
-            case 'miss':
+            case STATUS_CODE.miss:
                 tile.classList.add('tile--miss')
                 break;
             
-            case 'ship':
+            case STATUS_CODE.ship:
                 tile.classList.add('tile--ship')
                 break;
         
