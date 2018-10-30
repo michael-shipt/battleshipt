@@ -51,13 +51,43 @@ export default class Game {
 
             this.view.drawBoard(board)
             board.createShips(this.shipList)
-            board.ships.forEach((ship, i) => {
-                board.placeShip(ship, 0, 2, 1+i)
-                this.view.drawBoard(board)
-            })
         })
 
-        this.gameLoop()
+        this.placeShips(this.gameLoop.bind(this))
+    }
+
+    /**
+     * Loops through all players and their ships for placement on the board
+     * 
+     * @param {function} callback called once all ships have been placed
+     */
+    placeShips(callback) {
+        let shipCounter = 0,
+            playerCounter = 0
+
+        this.view.setActiveBoard(playerCounter)
+    
+        document.addEventListener('attack', event => {
+            const {board, x, y} = event.detail,
+                  activePlayer = this.players[playerCounter]
+
+            if (board !== playerCounter) { return }
+
+            activePlayer.board.placeShip(activePlayer.board.ships[shipCounter], 0, x, y)
+            shipCounter = (shipCounter + 1) % this.shipList.length
+            
+            if (shipCounter === 0) {
+                playerCounter = playerCounter + 1
+            }
+
+            this.view.updateBoard(activePlayer.board)
+            
+            if (playerCounter !== this.players.length) {
+                this.view.setActiveBoard(playerCounter)
+            } else {
+                callback()
+            }
+        })
     }
 
     /**

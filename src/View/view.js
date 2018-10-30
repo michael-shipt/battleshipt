@@ -33,6 +33,20 @@ export default class View {
         document.getElementById(board.name).innerHTML = tiles
     }
 
+    updateBoard(board) {
+        const boardNode = document.getElementById(board.name),
+              tileNodes = boardNode.childNodes
+
+        board.tiles.forEach((row, ri) => {
+            row.forEach((tile, ti) => {
+                if (typeof tile === 'object') {
+                    tileNodes[(ri*10)+ti].classList.add('tile--ship')
+                    // console.log()
+                }
+            })
+        })
+    }
+
     /**
      * Checks to see if a board object exists in the DOM
      * 
