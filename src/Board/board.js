@@ -1,5 +1,6 @@
 import { Ship } from '../Ship'
 
+// Orientation enum
 const ORIENTATION = {
     horizontal: 0,
     vertical: 1
@@ -9,14 +10,14 @@ const ORIENTATION = {
  * Board class represents a player's board: a grid of n tiles.
  * 
  * @access public
- * @since 1.0.0
  */
 export default class Board {
     /**
-     * Constructs a new Board object
+     * Constructs a new Board instance
      * 
      * @param {number} width the width of the board
      * @param {number} height the height of the board
+     * @param {array} shipList a list of arrays containing [0] ship name and [1] ship hp
      */
     constructor(width, height, shipList) {
         this.name = `board_${Math.floor(1000 + Math.random() * 9000)}`
@@ -44,6 +45,13 @@ export default class Board {
         return board
     }
 
+    /**
+     * Creates an array of Ship instances
+     * 
+     * @param {array} shipList a list of arrays containing [0] ship name and [1] ship hp
+     * 
+     * @returns {array} Array of Ship instances
+     */
     createShips(shipList) {
         let ships = []
 
@@ -58,9 +66,9 @@ export default class Board {
     }
 
     /**
-     * Places a Ship object on the Board
+     * Places a Ship instance on the Board
      * 
-     * @param {Ship} ship a Ship object to be placed on the board
+     * @param {Ship} ship a Ship instance to be placed on the board
      * @param {number} orientation 0 for horizontal or 1 for vertical
      * @param {number} x the x coordinate of the piece
      * @param {number} y the y coordinate of the piece
@@ -68,6 +76,7 @@ export default class Board {
     placeShip(ship, orientation, x, y) {
         x = x - 1
         y = y - 1
+
         if (ship === null) {
             return null
         }
@@ -81,8 +90,6 @@ export default class Board {
                 this.tiles[y + i][x] = ship
             }
         }
-
-        return // TODO: array of ship tiles?
     }
 
     /**
@@ -90,15 +97,29 @@ export default class Board {
      * 
      * @param {number} x x coordinate of tile to check
      * @param {number} y y coordinate of tile to check
+     * 
+     * @return {boolean} the value of the tile at x, y
      */
     checkTile(x, y) {
         return this.tiles[y - 1][x - 1]
     }
 
+    /**
+     * Sets the status of a specified tile on the board
+     * 
+     * @param {number} status status of the tile, 0 for unattacked, 1 for attacked
+     * @param {number} x x coordinate of the tile to set
+     * @param {number} y y coordinate of the tile to set
+     */
     setTile(status, x, y) {
         this.tiles[y-1][x-1] = status
     }
 
+    /**
+     * Checks to see if all ships on the board are sunk
+     * 
+     * @returns {bool} Are all the ships on the board sunk?
+     */
     areAllShipsSunk() {
         return this.ships.every(ship => ship.sunk)
     }
