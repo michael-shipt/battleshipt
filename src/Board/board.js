@@ -72,24 +72,37 @@ export default class Board {
      * @param {number} orientation 0 for horizontal or 1 for vertical
      * @param {number} x the x coordinate of the piece
      * @param {number} y the y coordinate of the piece
+     * 
+     * @return {boolean} was the ship succesfully placed on the board?
      */
     placeShip(ship, orientation, x, y) {
         x = x - 1
         y = y - 1
 
         if (ship === null) {
-            return null
+            return false
         }
 
+        // REFACTOR
         if (orientation === ORIENTATION.horizontal) {
-            for (let i = 0; i < ship.hp; i++) {
-                this.tiles[y][x + i] = ship
+            if (x + ship.hp <= this.width) {
+                for (let i = 0; i < ship.hp; i++) {
+                    this.tiles[y][x + i] = ship
+                }
+            } else {
+                return false
             }
         } else if (orientation === ORIENTATION.vertical) {
-            for (let i = 0; i < ship.hp; i++) {
-                this.tiles[y + i][x] = ship
+            if (y + ship.hp <= this.height) {
+                for (let i = 0; i < ship.hp; i++) {
+                    this.tiles[y + i][x] = ship
+                }
+            } else {
+                return false
             }
         }
+
+        return true
     }
 
     /**

@@ -61,7 +61,7 @@ export default class Game {
      * 
      * @param {function} callback called once all ships have been placed
      */
-    // MP: refactor? listen for "R" keycode to rotate piece?
+    // REFACTOR
     placeShips(callback) {
         let shipCounter = 0,
             playerCounter = 0,
@@ -85,7 +85,10 @@ export default class Game {
 
             if (board !== playerCounter) { return }
 
-            activePlayer.board.placeShip(activePlayer.board.ships[shipCounter], orientation, x, y)
+            if(!activePlayer.board.placeShip(activePlayer.board.ships[shipCounter], orientation, x, y)) {
+                return
+            }
+            
             shipCounter = (shipCounter + 1) % this.shipList.length
             
             if (shipCounter === 0) {
