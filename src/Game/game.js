@@ -10,7 +10,6 @@ export default class Game {
         this.lastPlayer = numberOfPlayers - 1
         this.over = false
         
-        this.turn = () => this.turn
         this.start()
     }
 
@@ -27,11 +26,14 @@ export default class Game {
 
     start() {
         this.players.forEach(player => {
-            this.view.drawBoard(player.board)
-            player.board.createShips(this.shipList)
-            player.board.ships.forEach((ship, i) => {
-                player.board.placeShip(ship, 'horizontal', 2, 1+i)
-                this.view.drawBoard(player.board)
+            
+            const { board } = player
+
+            this.view.drawBoard(board)
+            board.createShips(this.shipList)
+            board.ships.forEach((ship, i) => {
+                board.placeShip(ship, 0, 2, 1+i)
+                this.view.drawBoard(board)
             })
         })
 
@@ -42,9 +44,9 @@ export default class Game {
         this.view.setActiveBoard(this.lastPlayer)
 
         const activePlayer = this.players[this.currentPlayer],
-            lastPlayer = this.players[this.lastPlayer]
+              lastPlayer = this.players[this.lastPlayer]
 
-        const turn = turnHandler.bind(this)
+        const turn = attackHandler.bind(this)
 
         if(!this.over) {
             // listen for a click
@@ -52,7 +54,7 @@ export default class Game {
         }
 
         // refactor
-        function turnHandler(e) {
+        function attackHandler(e) {
             document.removeEventListener('attack', turn, false)
     
             const board = e.detail.board,

@@ -1,5 +1,10 @@
 import { Ship } from '../Ship'
 
+const ORIENTATION = {
+    horizontal: 0,
+    vertical: 1
+}
+
 /**
  * Board class represents a player's board: a grid of n tiles.
  * 
@@ -10,30 +15,30 @@ export default class Board {
     /**
      * Constructs a new Board object
      * 
-     * @param {number} x the width of the board
-     * @param {number} y the height of the board
+     * @param {number} width the width of the board
+     * @param {number} height the height of the board
      */
-    constructor(x, y, shipList) {
+    constructor(width, height, shipList) {
         this.name = `board_${Math.floor(1000 + Math.random() * 9000)}`
-        this.x = x
-        this.y = y
-        this.tiles = this.createBoard(x, y)
+        this.width = width
+        this.height = height
+        this.tiles = this.createBoard(width, height)
         this.ships = this.createShips(shipList)
     }
 
     /**
      * Creates a new board a 2d array (length x) of arrays (length y)
      * 
-     * @param {number} x the width of the board
-     * @param {number} y the height of the board
+     * @param {number} width the width of the board
+     * @param {number} height the height of the board
      * 
      * @returns {number[]} a 2d array
      */
-    createBoard(x, y) {
+    createBoard(width, height) {
         let board = []
 
-        for (let i = 1; i <= y; i++) {
-            board.push(new Array(x).fill(0))
+        for (let i = 1; i <= height; i++) {
+            board.push(new Array(width).fill(0))
         }
 
         return board
@@ -56,24 +61,23 @@ export default class Board {
      * Places a Ship object on the Board
      * 
      * @param {Ship} ship a Ship object to be placed on the board
-     * @param {string} orientation One of 'horizontal' or 'vertical'
+     * @param {number} orientation 0 for horizontal or 1 for vertical
      * @param {number} x the x coordinate of the piece
      * @param {number} y the y coordinate of the piece
      */
     placeShip(ship, orientation, x, y) {
         x = x - 1
         y = y - 1
-
-        if (!ship.length || !orientation.length) {
+        if (ship === null) {
             return null
         }
 
-        if (orientation === 'horizontal') {
-            for (let i = 0; i < ship.length; i++) {
+        if (orientation === ORIENTATION.horizontal) {
+            for (let i = 0; i < ship.hp; i++) {
                 this.tiles[y][x + i] = ship
             }
-        } else if (orientation === 'vertical') {
-            for (let i = 0; i < ship.length; i++) {
+        } else if (orientation === ORIENTATION.vertical) {
+            for (let i = 0; i < ship.hp; i++) {
                 this.tiles[y + i][x] = ship
             }
         }
@@ -96,14 +100,6 @@ export default class Board {
     }
 
     areAllShipsSunk() {
-        for (let i = 0; i < this.ships.length; i++) {
-            const e = this.ships[i];
-
-            if (!e.sunk) {
-                return false
-            }
-        }
-
-        return true
+        return this.ships.every(ship => ship.sunk)
     }
 }

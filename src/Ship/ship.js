@@ -1,8 +1,7 @@
 export default class Ship {
-    constructor(name, length) {
+    constructor(name, hp) {
         this.name = name
-        this.length = length
-        this.hp = length
+        this.hp = hp
         this.sunk = false
     }
 

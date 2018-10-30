@@ -8,7 +8,7 @@ const player1 = new Player(board1)
 const player2 = new Player(new Board(4,4))
 
 const ship = new Ship('ship', 2)
-board1.placeShip(ship, 'horizontal', 2, 2)
+board1.placeShip(ship, 0, 2, 2)
 
 test('Attack and a miss.', () => {
     expect(player2.attack(player1, 1, 1)).toBe('Miss!')
