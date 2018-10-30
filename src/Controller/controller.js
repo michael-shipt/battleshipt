@@ -21,16 +21,23 @@ export default class Controller {
 
         this.clickHandler()
         this.mouseMoveHandler()
+        this.keydownHandler()
+    }
+
+    keydownHandler() {
+        document.addEventListener('keydown', e => {
+            if (e.code === 'KeyR' || e.code === 'Space') {
+                this.view.rotateMouseFollow()
+                document.dispatchEvent(new Event('rotate'))
+            } else {
+                return
+            }
+        })
     }
 
     mouseMoveHandler() {
         document.addEventListener('mousemove', event => {
-            const mouseFollow = document.querySelector('.mouseFollow')
-
-            if (mouseFollow !== null) {
-                mouseFollow.style.top = event.pageY + 'px'
-                mouseFollow.style.left = event.pageX + 'px'
-            }
+            this.view.moveMouseFollow()
         })
     }
 

@@ -32,6 +32,7 @@ h1 {
 
 body {
     background: #848484;
+    overflow: hidden;
 }
 
 #app {
@@ -94,6 +95,7 @@ body {
     pointer-events: none;
     opacity: .8;
     transform: translate(-20px,-20px);
+    white-space: nowrap;
 
     .tile {
         width: 40px;

@@ -68,6 +68,26 @@ export default class View {
         }
     }
 
+    moveMouseFollow() {
+        const mouseFollow = document.querySelector('.mouseFollow')
+
+        if (mouseFollow !== null) {
+            mouseFollow.style.top = event.pageY + 'px'
+            mouseFollow.style.left = event.pageX + 'px'
+        }
+    }
+
+    rotateMouseFollow() {
+        const mouseFollow = document.querySelector('.mouseFollow')
+
+        if (mouseFollow !== null) {
+            const newOrientationClass = mouseFollow.classList.contains('horizontal') ? 'vertical' : 'horizontal'
+            const oldOrientationClass = mouseFollow.classList.contains('horizontal') ? 'horizontal' : 'vertical'
+
+            mouseFollow.classList.replace(oldOrientationClass, newOrientationClass)
+        }
+    }
+
     removeMouseFollow() {
         console.log('remove');
         
