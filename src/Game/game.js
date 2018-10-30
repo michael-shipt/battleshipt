@@ -166,6 +166,10 @@ export default class Game {
      */
     gameOver() {
         // TODO: Have an actual game over alert/continue to reset game
-        
+        if (confirm('Game over! Would you like to play again?')) {
+            document.location.reload()
+        } else {
+            return null
+        }
     }
 }
