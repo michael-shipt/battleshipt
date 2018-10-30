@@ -20,6 +20,18 @@ export default class Controller {
         ])
 
         this.clickHandler()
+        this.mouseMoveHandler()
+    }
+
+    mouseMoveHandler() {
+        document.addEventListener('mousemove', event => {
+            const mouseFollow = document.querySelector('.mouseFollow')
+
+            if (mouseFollow !== null) {
+                mouseFollow.style.top = event.pageY + 'px'
+                mouseFollow.style.left = event.pageX + 'px'
+            }
+        })
     }
 
     /**

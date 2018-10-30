@@ -86,3 +86,29 @@ body {
         @include peg(white)
     }
 }
+
+.mouseFollow {
+    position: absolute;
+    top: -100px;
+    left: -100px;
+    pointer-events: none;
+    opacity: .8;
+    transform: translate(-20px,-20px);
+
+    .tile {
+        width: 40px;
+        height: 40px;
+    }
+
+    &.horizontal {
+        .tile {
+            display: inline-block;
+        }
+    }
+    
+    &.vertical {
+        .tile {
+            display: block;
+        }
+    }
+}

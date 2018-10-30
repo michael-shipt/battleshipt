@@ -61,13 +61,16 @@ export default class Game {
      * 
      * @param {function} callback called once all ships have been placed
      */
+    // MP: refactor? listen for "R" keycode to rotate piece? Call View to show the piece tracked to the mouse?
     placeShips(callback) {
         let shipCounter = 0,
             playerCounter = 0
 
         this.view.setActiveBoard(playerCounter)
+        this.view.createMouseFollow(this.players[0].board.ships[0].hp,0)
     
         document.addEventListener('attack', event => {
+            
             const {board, x, y} = event.detail,
                   activePlayer = this.players[playerCounter]
 
@@ -85,8 +88,12 @@ export default class Game {
             if (playerCounter !== this.players.length) {
                 this.view.setActiveBoard(playerCounter)
             } else {
+                this.view.removeMouseFollow()
                 callback()
+                return
             }
+
+            this.view.createMouseFollow(activePlayer.board.ships[shipCounter].hp,0)
         })
     }
 
@@ -158,6 +165,7 @@ export default class Game {
      * Called when the game is over.
      */
     gameOver() {
-        alert('Game over!')
+        // TODO: Have an actual game over alert/continue to reset game
+        
     }
 }

@@ -47,6 +47,35 @@ export default class View {
         })
     }
 
+    createMouseFollow(length, orientation) {
+        this.removeMouseFollow()
+
+        const followPiece = document.createElement('div')
+        followPiece.classList.add('mouseFollow')
+
+        const orientationClass = orientation === 0 ? 'horizontal' : 'vertical'
+
+        followPiece.classList.add('mouseFollow')
+        followPiece.classList.add(orientationClass)
+
+        document.body.append(followPiece)
+
+        for (let i = 0; i < length; i++) {
+            const tile = document.createElement('div')
+            tile.classList.add('tile')
+            tile.classList.add('tile--ship')
+            document.querySelector('.mouseFollow').appendChild(tile)
+        }
+    }
+
+    removeMouseFollow() {
+        console.log('remove');
+        
+        if(document.querySelector('.mouseFollow')) {
+            document.querySelector('.mouseFollow').remove()
+        }
+    }
+
     /**
      * Checks to see if a board object exists in the DOM
      * 
