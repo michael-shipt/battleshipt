@@ -33,6 +33,11 @@ export default class View {
         document.getElementById(board.name).innerHTML = tiles
     }
 
+    /**
+     * Scans an instance of Board and updates its representation in the DOM
+     * 
+     * @param {Board} board instance of Board to reference
+     */
     updateBoard(board) {
         const boardNode = document.getElementById(board.name),
               tileNodes = boardNode.childNodes
@@ -41,12 +46,17 @@ export default class View {
             row.forEach((tile, ti) => {
                 if (typeof tile === 'object') {
                     tileNodes[(ri*10)+ti].classList.add('tile--ship')
-                    // console.log()
                 }
             })
         })
     }
 
+    /**
+     * Creates a ship piece to follow mouse movement
+     * 
+     * @param {number} length number of tiles in the piece
+     * @param {number} orientation rotation of the piece, 0 = horizontal, 1 = vertical
+     */
     createMouseFollow(length, orientation) {
         this.removeMouseFollow()
 
@@ -68,6 +78,9 @@ export default class View {
         }
     }
 
+    /**
+     * Tracks the position of the mouse and matches the location of a .mouseFollow element to it
+     */
     moveMouseFollow() {
         const mouseFollow = document.querySelector('.mouseFollow')
 
@@ -77,6 +90,9 @@ export default class View {
         }
     }
 
+    /**
+     * Swaps the orientation class of a .mouseFollow element between 'horizontal' and 'vertical
+     */
     rotateMouseFollow() {
         const mouseFollow = document.querySelector('.mouseFollow')
 
@@ -88,9 +104,10 @@ export default class View {
         }
     }
 
+    /**
+     * Removes the .mouseFollow element from the DOM
+     */
     removeMouseFollow() {
-        console.log('remove');
-        
         if(document.querySelector('.mouseFollow')) {
             document.querySelector('.mouseFollow').remove()
         }

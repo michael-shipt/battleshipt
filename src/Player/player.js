@@ -27,9 +27,9 @@ export default class Player {
      */
     attack(player, x, y) {
         const   opponentBoard = player.board,
-                tileStatus = opponentBoard.checkTile(x, y)
+                tileStatus = opponentBoard.checkTile(x, y),
+                ship = tileStatus // double variable for readability
         
-        // refactor
         switch (tileStatus) {
 
             case STATUS_CODE.miss:
@@ -42,22 +42,21 @@ export default class Player {
                 return STATUS_CODE.taken
 
             default:
-                tileStatus.hit()
+                ship.hit()
                 opponentBoard.setTile(1, x, y)
 
-                if (!tileStatus.sunk) {
+                if (!ship.sunk) {
                     console.log('Hit!')
                     return STATUS_CODE.hit
-                } else {
-                    if (opponentBoard.areAllShipsSunk()) {
-                        console.log('Game over, man. Game OVER!!')
-                        return STATUS_CODE.gameover
-                    }
-
-                    console.log('Sunk!')
-                    return STATUS_CODE.sunk
-
                 }
+                
+                if (opponentBoard.areAllShipsSunk()) {
+                    console.log('Game over, man. Game OVER!!')
+                    return STATUS_CODE.gameover
+                }
+
+                console.log('Sunk!')
+                return STATUS_CODE.sunk
         }
     }
 }

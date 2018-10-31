@@ -24,6 +24,9 @@ export default class Controller {
         this.keydownHandler()
     }
 
+    /**
+     * Listen for keydown events, fire 'rotate' event if key is R or Space
+     */
     keydownHandler() {
         document.addEventListener('keydown', e => {
             if (e.code === 'KeyR' || e.code === 'Space') {
@@ -35,6 +38,9 @@ export default class Controller {
         })
     }
 
+    /**
+     * Listens for mousemove events, triggers mouseFollow to update position
+     */
     mouseMoveHandler() {
         document.addEventListener('mousemove', event => {
             this.view.moveMouseFollow()
@@ -42,7 +48,7 @@ export default class Controller {
     }
 
     /**
-     * Listens for any click on a tile and fires an attack event
+     * Listens for any click on a tile and fires an 'attack' event
      */
     clickHandler() {
         const tiles = document.querySelectorAll('div.tile')

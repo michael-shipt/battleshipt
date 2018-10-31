@@ -83,8 +83,8 @@ export default class Board {
             return false
         }
 
-        // REFACTOR
         if (orientation === ORIENTATION.horizontal) {
+            // Ensure that the ship doesn't overflow the board horizontally
             if (x + ship.hp <= this.width) {
                 for (let i = 0; i < ship.hp; i++) {
                     this.tiles[y][x + i] = ship
@@ -93,6 +93,7 @@ export default class Board {
                 return false
             }
         } else if (orientation === ORIENTATION.vertical) {
+            // Ensure that the ship doesn't overflow the board vertically
             if (y + ship.hp <= this.height) {
                 for (let i = 0; i < ship.hp; i++) {
                     this.tiles[y + i][x] = ship

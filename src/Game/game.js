@@ -15,11 +15,11 @@ export default class Game {
         this.view = view
         this.shipList = shipList
         this.players = this.createPlayers(numberOfPlayers)
-        
+
         this.currentPlayer = 0
         this.lastPlayer = numberOfPlayers - 1
         this.over = false
-        
+
         this.start()
     }
 
@@ -46,7 +46,7 @@ export default class Game {
      */
     start() {
         this.players.forEach(player => {
-            
+
             const { board } = player
 
             this.view.drawBoard(board)
@@ -61,53 +61,65 @@ export default class Game {
      * 
      * @param {function} callback called once all ships have been placed
      */
-    // REFACTOR
     placeShips(callback) {
+        // Pass this scope to the placeHandler function
+        const place = placeHandler.bind(this)
+
+        // Counters and scope vars
         let shipCounter = 0,
             playerCounter = 0,
             orientation = 0
 
+        // View functions
         this.view.setActiveBoard(playerCounter)
-        this.view.createMouseFollow(this.players[0].board.ships[0].hp,0)
+        this.view.createMouseFollow(this.players[0].board.ships[0].hp, 0)
 
+        // Listen for rotation
         document.addEventListener('rotate', e => {
-            if (orientation === 0) {
-                orientation = 1
-            } else {
-                orientation = 0
-            }
+            orientation = 1 - orientation
         })
-    
-        document.addEventListener('attack', event => {
-            
-            const {board, x, y} = event.detail,
-                  activePlayer = this.players[playerCounter]
 
-            if (board !== playerCounter) { return }
+        // Listen for click
+        document.addEventListener('attack', place, false)
+        
+        // Handle click events during the placeShips loop
+        function placeHandler(event) {
+            const { board, x, y } = event.detail,
+                activePlayer = this.players[playerCounter],
+                activeBoard = activePlayer.board
 
-            if(!activePlayer.board.placeShip(activePlayer.board.ships[shipCounter], orientation, x, y)) {
+            // Only place on the active board
+            if (board !== playerCounter) { 
                 return
             }
-            
+
+            // Place the ship on the board. If it didn't place successfully, try again
+            if (!activeBoard.placeShip(activeBoard.ships[shipCounter], orientation, x, y)) {
+                return
+            }
+
+            // Increase ship counter until it hits 0
             shipCounter = (shipCounter + 1) % this.shipList.length
-            
+
+            // When it hits 0, increase the player count
             if (shipCounter === 0) {
                 playerCounter = playerCounter + 1
             }
 
-            this.view.updateBoard(activePlayer.board)
-            
+            this.view.updateBoard(activeBoard)
+
             if (playerCounter !== this.players.length) {
                 this.view.setActiveBoard(playerCounter)
             } else {
                 this.view.removeMouseFollow()
+                document.removeEventListener('attack', place)
                 callback()
                 return
             }
 
-            this.view.createMouseFollow(activePlayer.board.ships[shipCounter].hp,0)
+            this.view.createMouseFollow(activeBoard.ships[shipCounter].hp, 0)
             orientation = 0
-        })
+        }
     }
 
     /**
@@ -117,11 +129,11 @@ export default class Game {
         this.view.setActiveBoard(this.lastPlayer)
 
         const activePlayer = this.players[this.currentPlayer],
-              lastPlayer = this.players[this.lastPlayer]
+            lastPlayer = this.players[this.lastPlayer]
 
         const turn = attackHandler.bind(this)
 
-        if(!this.over) {
+        if (!this.over) {
             // Listen for an 'attack'
             document.addEventListener('attack', turn, false)
         }
@@ -129,11 +141,11 @@ export default class Game {
         function attackHandler(event) {
             // Remove the event listener until the next loop so we avoid double firing
             document.removeEventListener('attack', turn, false)
-    
-            const {board, x, y, target} = event.detail
-            
+
+            const { board, x, y, target } = event.detail
+
             // Ignore it if it came from current player's board
-            if (board !== this.lastPlayer) { 
+            if (board !== this.lastPlayer) {
                 alert('wrong board')
                 this.gameLoop()
                 return
@@ -164,21 +176,20 @@ export default class Game {
      */
     advancePlayer() {
         this.lastPlayer = this.currentPlayer
-        
+
         if (this.currentPlayer < this.players.length - 1) {
             this.currentPlayer++
         } else {
             this.currentPlayer = 0
         }
 
-        console.log(`Player ${this.currentPlayer}'s turn!`)
+        console.log(`\nPlayer ${this.currentPlayer+1}'s turn!`)
     }
 
     /**
      * Called when the game is over.
      */
     gameOver() {
-        // TODO: Have an actual game over alert/continue to reset game
         if (confirm('Game over! Would you like to play again?')) {
             document.location.reload()
         } else {
