@@ -1,15 +1,39 @@
 h1 {
   text-transform: uppercase;
-  text-align: center;
   font-family: 'Impact', sans-serif;
-  font-size: 72px;
   color: #3c3c3c;
+  text-align: center;
+  font-size: 72px;
   text-shadow: 0 1px 1px rgba(255, 255, 255, 0.4);
+}
+
+h2 {
+  text-transform: uppercase;
+  font-family: 'Impact', sans-serif;
+  color: #3c3c3c;
+  text-align: center;
 }
 
 body {
   background: #848484;
   overflow: hidden;
+  font-family: Arial, sans-serif;
+  line-height: 1.5em;
+}
+
+kbd {
+  background: rgba(0, 0, 0, 0.1);
+  padding: 0 .5em;
+  display: inline-block;
+  font-size: 1.15em;
+  border-radius: 2px;
+  font-weight: bold;
+}
+
+#rules {
+  display: block;
+  margin: 0 auto;
+  width: 500px;
 }
 
 #app {
